@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import CheckIcon from "@/components/CheckIcon";
+import { SHOW_INSTAGRAM_POPUP_EVENT } from "@/components/InstagramPopup";
 import {
   ACCOUNT_LABELS,
   ACCOUNT_TYPES,
@@ -113,6 +114,8 @@ export default function EarlyAccessForm() {
       }
 
       setStatus("success");
+      // Give them a moment to see the success message before asking for the follow.
+      setTimeout(() => window.dispatchEvent(new Event(SHOW_INSTAGRAM_POPUP_EVENT)), 1500);
     } catch {
       setFormError("We couldn't reach the server. Check your connection and try again.");
       setStatus("idle");
