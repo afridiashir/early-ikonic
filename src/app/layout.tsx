@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo, Caveat } from "next/font/google";
 
+import InstagramPopup from "@/components/InstagramPopup";
+
 import "./globals.css";
 
 const archivo = Archivo({
@@ -37,7 +39,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${archivo.variable} ${caveat.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <InstagramPopup />
+      </body>
     </html>
   );
 }

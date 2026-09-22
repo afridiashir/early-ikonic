@@ -135,6 +135,20 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .closing .btn:hover{border-color:var(--red);background:var(--red)}
 .closing-script{position:absolute;right:6%;bottom:64px;z-index:2;font-size:44px;transform:rotate(-4deg);text-align:right;line-height:1.25}
 
+/* ---------- INSTAGRAM POPUP ---------- */
+.ig-popup-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .25s ease}
+.ig-popup{position:relative;background:var(--card);border:1px solid #1e1e1e;border-radius:18px;padding:40px;max-width:380px;width:100%;text-align:center;animation:fadeUp .35s ease}
+.ig-popup-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted2);font-size:22px;line-height:1;cursor:pointer;padding:6px}
+.ig-popup-close:hover{color:#fff}
+.ig-popup-icon{width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.ig-popup-icon svg{width:28px;height:28px;fill:#fff}
+.ig-popup h3{font-size:22px;font-weight:800;margin-bottom:10px}
+.ig-popup p{color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:26px}
+.ig-popup .btn{width:100%;justify-content:center}
+.ig-popup-skip{background:none;border:none;color:var(--muted2);font-family:inherit;font-size:13px;cursor:pointer;margin-top:14px}
+.ig-popup-skip:hover{color:#fff}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
 /* ---------- FOOTER ---------- */
 footer{border-top:1px solid #141414;padding:44px 0}
 footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
@@ -164,6 +178,7 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-
 
 @media(max-width:560px){
   .form-card{padding:28px 22px}
+  .ig-popup{padding:28px 22px}
   .frow{grid-template-columns:1fr;gap:0}
   .features{grid-template-columns:1fr}
   .feature + .feature::before{display:none}
