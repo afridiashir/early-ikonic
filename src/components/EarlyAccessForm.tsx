@@ -13,6 +13,7 @@ import {
   LISTENER_RANGES,
   NAME_LABELS,
   NAME_PLACEHOLDERS,
+  validateField,
   validateStepOne,
   validateStepTwo,
   type AccountType,
@@ -41,6 +42,15 @@ export default function EarlyAccessForm() {
       const value = event.target.value;
       setValues((prev) => ({ ...prev, [field]: value }));
       setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+    };
+
+  // Validates a single field the moment the user leaves it, so a bad value
+  // is flagged live instead of waiting for the step's submit.
+  const validateOnBlur =
+    (field: keyof EarlyAccessSubmission) =>
+    (event: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const message = validateField(field, { ...values, [field]: event.target.value });
+      setErrors((prev) => ({ ...prev, [field]: message }));
     };
 
   const focusFirstError = (fieldErrors: FieldErrors) => {
@@ -174,6 +184,7 @@ export default function EarlyAccessForm() {
                 placeholder={NAME_PLACEHOLDERS[values.accountType]}
                 value={values.name}
                 onChange={set("name")}
+                onBlur={validateOnBlur("name")}
                 aria-invalid={Boolean(errors.name)}
                 aria-describedby={errors.name ? "name-error" : undefined}
               />
@@ -195,6 +206,7 @@ export default function EarlyAccessForm() {
                 placeholder="you@example.com"
                 value={values.email}
                 onChange={set("email")}
+                onBlur={validateOnBlur("email")}
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={errors.email ? "email-error" : undefined}
               />
@@ -248,6 +260,7 @@ export default function EarlyAccessForm() {
                 placeholder="https://open.spotify.com/..."
                 value={values.spotify}
                 onChange={set("spotify")}
+                onBlur={validateOnBlur("spotify")}
                 aria-invalid={Boolean(errors.spotify)}
                 aria-describedby={errors.spotify ? "spotify-error" : undefined}
               />
@@ -267,6 +280,7 @@ export default function EarlyAccessForm() {
                   id="distributor"
                   value={values.distributor}
                   onChange={set("distributor")}
+                  onBlur={validateOnBlur("distributor")}
                   aria-invalid={Boolean(errors.distributor)}
                   aria-describedby={errors.distributor ? "distributor-error" : undefined}
                 >

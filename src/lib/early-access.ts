@@ -103,6 +103,14 @@ export function validateSubmission(values: EarlyAccessSubmission): FieldErrors {
   return { ...validateStepOne(values), ...validateStepTwo(values) };
 }
 
+/** Single-field check for live (on-blur) validation, ahead of a full submit. */
+export function validateField(
+  field: keyof EarlyAccessSubmission,
+  values: EarlyAccessSubmission,
+): string | undefined {
+  return { ...validateStepOne(values), ...validateStepTwo(values) }[field];
+}
+
 /** Coerces an unknown JSON body into the submission shape, trimming as it goes. */
 export function normalizeSubmission(input: unknown): EarlyAccessSubmission {
   const raw = (input ?? {}) as Record<string, unknown>;
