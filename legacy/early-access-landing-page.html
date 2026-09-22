@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  IKONIC — Early Access Landing Page (REVISED MOCKUP v2)
+  Prepared for Ahtisham — visual + copy reference for the website build.
+
+  WHAT CHANGED vs v1:
+  1. Added "More Than Distribution" brand line (hero script accent + manifesto strip).
+  2. Registration form is now TWO STEPS: Step 1 = name + email only (low friction).
+     Step 2 = everything else. Phone is now OPTIONAL.
+  3. Added "I am a: Artist / Label / Manager" toggle (company accounts need a path).
+  4. "Get Funded" card now leads with advances (the real differentiator).
+  5. Closing CTA changed from "Be Part of It" to "Join Early Access".
+  6. Section H2 changed to "Claim your spot." (CTA text was repeated 4x).
+  7. Fixed progress math: 2,847 / 5,000 = 2,153 remaining (was 2,155).
+
+  DEV NOTES:
+  - Logo: official IKONIC logo is in logo-white-crop.jpg (dark bg)
+    and assets/logo-black-crop.jpg (light bg). Use as-is.
+  - Counter (2,847): wire to real registration count before launch. Do not ship a fake number.
+  - DSP wordmarks: swap text for official platform logos.
+  - Form: needs backend endpoint. Step 1 should save the lead even if Step 2 is abandoned.
+  - Avatar stack: replace initial-circles with real artist photos or remove.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKONIC — More For Independent Artists | Join Early Access</title>
+<meta name="description" content="Ikonic is more than distribution. Distribution, publishing, funding and artist tools — all in one place. Join early access.">
+<link rel="icon" type="image/png" href="favicon.png?v=2">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050505; --panel:#0d0d0d; --card:#111111; --line:#232323;
+    --red:#f5242c; --red-dark:#c8102e;
+    --text:#ffffff; --muted:#a8a8a8; --muted2:#6f6f6f;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Archivo',-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1400px;margin:0 auto;padding:0 48px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.32em;color:var(--red);text-transform:uppercase}
+  .script{font-family:'Caveat',cursive;color:#fff;opacity:.92}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(5,5,5,.86);backdrop-filter:blur(14px);border-bottom:1px solid #141414}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:block}
+  .logo img{height:34px;width:auto;display:block}
+  .nav-links{display:flex;gap:36px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:#fff}
+  .nav-cta{display:flex;align-items:center;gap:22px}
+  .signin{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;border:none;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:16px;padding:15px 30px;border-radius:9px;text-decoration:none;transition:transform .15s,background .2s}
+  .btn:hover{background:#ff343c;transform:translateY(-1px)}
+  .btn.nav-btn{padding:11px 22px;font-size:14px}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;min-height:720px;display:flex;align-items:center}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .hero-overlay{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(100deg,rgba(5,5,5,.96) 0%,rgba(5,5,5,.86) 30%,rgba(5,5,5,.45) 58%,rgba(5,5,5,.1) 80%),
+               linear-gradient(0deg,rgba(5,5,5,.55),transparent 45%)}
+  .hero .wrap{position:relative;z-index:2;width:100%;padding:110px 48px}
+  .hero-copy{max-width:640px}
+  .hero-copy h1{font-size:clamp(52px,6vw,96px);font-weight:900;line-height:.96;letter-spacing:-.015em;margin:22px 0 26px;text-transform:uppercase}
+  .hero-copy h1 .red{color:var(--red)}
+  .hero-sub{font-size:21px;color:#d7d7d7;line-height:1.55;max-width:480px}
+  .hero-cta-row{margin-top:34px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+  .social-proof{display:flex;align-items:center;gap:14px;margin-top:30px}
+  .avatars{display:flex}
+  .avatar{width:44px;height:44px;border-radius:50%;border:2px solid var(--bg);margin-left:-12px;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:15px;color:#fff}
+  .avatar:first-child{margin-left:0}
+  .social-proof p{color:var(--muted);font-size:15px;line-height:1.45;max-width:230px}
+  .social-proof p strong{color:#fff}
+  .hero-script-corner{position:absolute;top:64px;right:48px;z-index:2;text-align:right;font-size:30px;line-height:1.16;color:#fff}
+  .hero-script-corner .underline{position:relative;display:inline-block}
+  .hero-script-corner .underline::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:3px;background:var(--red);border-radius:2px}
+  .hero-tag{position:absolute;right:48px;bottom:40px;z-index:2;text-align:right;font-size:12px;letter-spacing:.28em;color:#cfcfcf;line-height:2}
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{border-top:1px solid #141414;border-bottom:1px solid #141414;padding:72px 0;text-align:center;background:#070707}
+  .manifesto h2{font-size:clamp(40px,4.6vw,76px);font-weight:900;letter-spacing:-.01em;text-transform:uppercase}
+  .manifesto h2 .red{color:var(--red)}
+  .manifesto p{color:var(--muted);margin-top:16px;font-size:17px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+  /* ---------- FEATURES ---------- */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);padding:64px 0}
+  .feature{padding:10px 44px;text-align:center;position:relative}
+  .feature + .feature::before{content:'';position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--line)}
+  .feature svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:1.6;margin-bottom:20px}
+  .feature h3{font-size:15px;font-weight:800;letter-spacing:.14em;margin-bottom:12px}
+  .feature p{color:var(--muted);font-size:15px;line-height:1.6}
+
+  /* ---------- REGISTER ---------- */
+  .register{padding:110px 0}
+  .register-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+  .register h2{font-size:clamp(44px,4vw,64px);font-weight:900;margin:18px 0 20px;letter-spacing:-.01em}
+  .register h2 .red{color:var(--red)}
+  .register .lede{color:#c9c9c9;font-size:18px;line-height:1.65;max-width:480px}
+  .benefits{list-style:none;margin:34px 0 44px;display:flex;flex-direction:column;gap:18px}
+  .benefits li{display:flex;align-items:center;gap:14px;font-size:17px;font-weight:500}
+  .check{width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex:none}
+  .check svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none}
+  .progress-label{font-size:12px;letter-spacing:.3em;color:var(--muted2);font-weight:700}
+  .progress-num{font-size:52px;font-weight:800;letter-spacing:-.02em;margin:8px 0 16px}
+  .progress-num span{color:var(--muted2);font-weight:600;font-size:34px}
+  .bar{height:12px;background:#1d1d1d;border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red-dark),var(--red));border-radius:99px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+  .progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:15px;margin-top:12px}
+
+  .form-card{background:var(--card);border:1px solid #1e1e1e;border-radius:18px;padding:44px}
+  .form-card h3{font-size:24px;font-weight:800;margin-bottom:8px}
+  .form-card > p{color:var(--muted);font-size:15px;margin-bottom:26px}
+  .acct-toggle{display:flex;background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:5px;margin-bottom:26px}
+  .acct-toggle button{flex:1;background:transparent;border:none;color:var(--muted);font-family:inherit;font-weight:700;font-size:14px;padding:11px 0;border-radius:7px;cursor:pointer;transition:all .2s}
+  .acct-toggle button.active{background:var(--red);color:#fff}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:13.5px;font-weight:600;color:#d5d5d5;margin-bottom:8px}
+  .field label .req{color:var(--red)}
+  .field label .opt{color:var(--muted2);font-weight:500}
+  .field input,.field select{width:100%;background:#0a0a0a;border:1px solid #262626;border-radius:9px;color:#fff;
+    font-family:inherit;font-size:15px;padding:14px 16px;outline:none;transition:border-color .2s;appearance:none}
+  .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+  .field input:focus,.field select:focus{border-color:var(--red)}
+  .field input::placeholder{color:#555}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .form-step{display:none}
+  .form-step.active{display:block;animation:fadeUp .35s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .step-hint{font-size:13px;color:var(--muted2);margin-bottom:20px;letter-spacing:.06em}
+  .form-card .btn{width:100%;justify-content:center;margin-top:8px}
+  .back-link{background:none;border:none;color:var(--muted2);font-family:inherit;font-size:14px;cursor:pointer;margin:14px auto 0;display:block}
+  .back-link:hover{color:#fff}
+  .microcopy{text-align:center;color:var(--muted2);font-size:13px;margin-top:16px}
+  .form-success{display:none;text-align:center;padding:30px 0}
+  .form-success .check{width:64px;height:64px;margin:0 auto 22px}
+  .form-success .check svg{width:28px;height:28px}
+  .form-success h3{font-size:26px;margin-bottom:12px}
+  .form-success p{color:var(--muted);line-height:1.65}
+
+  /* ---------- PLATFORMS ---------- */
+  .platforms{padding:70px 0 80px;text-align:center;border-top:1px solid #141414}
+  .platforms .plabel{font-size:13px;letter-spacing:.4em;color:var(--muted2);font-weight:700;margin-bottom:40px}
+  .dsp-row{display:flex;justify-content:center;align-items:center;gap:72px;flex-wrap:wrap}
+  .dsp{font-size:23px;font-weight:700;color:#8f8f8f;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+  .dsp svg{width:30px;height:30px;fill:#8f8f8f}
+
+  /* ---------- CLOSING ---------- */
+  .closing{position:relative;overflow:hidden;min-height:560px;display:flex;align-items:center}
+  .closing img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .closing::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.94) 20%,rgba(5,5,5,.55) 55%,rgba(5,5,5,.15))}
+  .closing .wrap{position:relative;z-index:2;width:100%}
+  .closing-copy{max-width:640px;padding:110px 0}
+  .closing h2{font-size:clamp(44px,4.6vw,72px);font-weight:900;line-height:1.02;margin:20px 0 24px;text-transform:uppercase;letter-spacing:-.01em}
+  .closing h2 .red{color:var(--red)}
+  .closing p{color:#d5d5d5;font-size:18px;line-height:1.65;max-width:520px;margin-bottom:36px}
+  .closing .btn{background:transparent;border:1.5px solid #4a4a4a}
+  .closing .btn:hover{border-color:var(--red);background:var(--red)}
+  .closing-script{position:absolute;right:6%;bottom:64px;z-index:2;font-size:44px;transform:rotate(-4deg);text-align:right;line-height:1.25}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid #141414;padding:44px 0}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+  .f-logo{display:block}
+  .f-logo img{height:30px;width:auto;display:block}
+  .f-copy{color:var(--muted2);font-size:13px;margin-top:8px}
+  .f-links{display:flex;align-items:center;gap:28px}
+  .f-links a{color:var(--muted);text-decoration:none;font-size:14px}
+  .f-links a:hover{color:#fff}
+  .f-social{display:flex;gap:18px}
+  .f-social svg{width:20px;height:20px;fill:var(--muted);transition:fill .2s}
+  .f-social a:hover svg{fill:#fff}
+
+  @media(max-width:1000px){
+    .hero{min-height:560px}
+    .hero .wrap{padding:70px 24px 60px}
+    .hero-script-corner{display:none}
+    .wrap{padding:0 24px}
+    .features{grid-template-columns:1fr 1fr;gap:40px 0}
+    .feature:nth-child(3)::before{display:none}
+    .register{padding:70px 0}
+    .register-grid{grid-template-columns:1fr;gap:60px}
+    .nav-links{display:none}
+    .closing-script{display:none}
+    .dsp-row{gap:36px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <!-- Official IKONIC logo -->
+    <a class="logo" href="https://early.ikonicdistro.com" aria-label="IKONIC — Home"><img src="logo-white-crop.jpg" alt="IKONIC"></a>
+    <div class="nav-cta">
+      <a class="signin" href="#">Sign In</a>
+      <a class="btn nav-btn" href="#register">Join Early Access &nbsp;→</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <img class="hero-bg" src="hero.jpg" alt="Artist singing into a studio microphone in red light">
+  <div class="hero-overlay"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow">Ikonic Early Access</div>
+      <h1>Built<br>for<br><span class="red">Artists.</span></h1>
+      <p class="hero-sub">Distribution. Publishing. Funding. Tools.<br>All in one place.</p>
+      <div class="hero-cta-row">
+        <a class="btn" href="#register">Join Early Access &nbsp;→</a>
+      </div>
+      <div class="social-proof">
+        <div class="avatars">
+          <div class="avatar" style="background:linear-gradient(135deg,#3a3a3a,#141414)">J</div>
+          <div class="avatar" style="background:linear-gradient(135deg,#5a1a1a,#220a0a)">M</div>
+          <div class="avatar" style="background:linear-gradient(135deg,#1a3a5a,#0a1622)">K</div>
+          <div class="avatar" style="background:linear-gradient(135deg,#4a4a12,#1c1c08)">T</div>
+        </div>
+        <!-- DEV: wire this count to the real registration total. Do not ship a hardcoded fake number. -->
+        <p><strong>2,847 artists</strong> have already joined early access.</p>
+      </div>
+    </div>
+  </div>
+  <div class="script hero-script-corner">Artists<br>Own<br>More<br><span class="underline">Here.</span></div>
+  <div class="hero-tag">A NEW STANDARD<br>FOR INDEPENDENT MUSIC.</div>
+</header>
+
+<section class="manifesto">
+  <div class="wrap">
+    <h2>More than <span class="red">distribution.</span></h2>
+    <p>Distributors put your music online. Ikonic builds the infrastructure underneath your entire career — so you own more, earn more, and go further.</p>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap" style="display:contents">
+    <div class="feature">
+      <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
+      <h3>DISTRIBUTE</h3><p>Release your music everywhere.</p>
+    </div>
+    <div class="feature">
+      <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      <h3>PUBLISH</h3><p>Keep more of what you create.</p>
+    </div>
+    <div class="feature">
+      <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+      <h3>GET FUNDED</h3><p>Get advances on the catalog you've already built.</p>
+    </div>
+    <div class="feature">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <h3>ARTIST TOOLS</h3><p>Everything you need to grow.</p>
+    </div>
+  </div>
+</section>
+
+<section class="register" id="register">
+  <div class="wrap register-grid">
+    <div>
+      <div class="eyebrow">Be the first</div>
+      <h2>Claim your <span class="red">spot.</span></h2>
+      <p class="lede">Get early access to Ikonic and be the first to experience a new standard for independent music.</p>
+      <ul class="benefits">
+        <li><span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>Early access to the platform</li>
+        <li><span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>Exclusive launch benefits</li>
+        <li><span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>Priority account approval</li>
+        <li><span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>Be the first to new features</li>
+        <li><span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>Help shape the future</li>
+      </ul>
+      <div class="progress-label">Early Access Registrations</div>
+      <!-- DEV: wire all three numbers to the live count. remaining = 5000 - joined -->
+      <div class="progress-num"><span id="joinedNum">0</span> <span>/ 5,000</span></div>
+      <div class="bar"><i id="progressBar"></i></div>
+      <div class="progress-meta"><span><strong style="color:#fff">2,847</strong> joined</span><span><strong style="color:#fff">2,153</strong> remaining</span></div>
+    </div>
+
+    <div class="form-card">
+      <div id="formFields">
+        <h3>Create Your Early Access Profile</h3>
+        <p>Tell us a few details to get started.</p>
+        <div class="acct-toggle" id="acctToggle">
+          <button type="button" class="active" data-acct="artist">Artist</button>
+          <button type="button" data-acct="label">Label</button>
+          <button type="button" data-acct="manager">Manager</button>
+        </div>
+
+        <form id="earlyAccessForm" onsubmit="return false">
+          <div class="form-step active" id="step1">
+            <div class="step-hint">STEP 1 OF 2 — SECURE YOUR SPOT</div>
+            <div class="field">
+              <label for="artistName">Artist Name <span class="req">*</span></label>
+              <input id="artistName" type="text" placeholder="Your artist name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" type="email" placeholder="you@example.com" required>
+            </div>
+            <button class="btn" type="button" onclick="nextStep()">Continue &nbsp;→</button>
+            <p class="microcopy">Takes 10 seconds. Finish the rest on the next step.</p>
+          </div>
+
+          <div class="form-step" id="step2">
+            <div class="step-hint">STEP 2 OF 2 — TELL US ABOUT YOUR MUSIC</div>
+            <div class="frow">
+              <div class="field">
+                <label for="phone">Phone Number <span class="opt">(optional)</span></label>
+                <input id="phone" type="tel" placeholder="(201) 555-0123">
+              </div>
+              <div class="field">
+                <label for="instagram">Instagram Handle</label>
+                <input id="instagram" type="text" placeholder="@yourhandle">
+              </div>
+            </div>
+            <div class="field">
+              <label for="spotify">Spotify Link</label>
+              <input id="spotify" type="url" placeholder="https://open.spotify.com/...">
+            </div>
+            <div class="frow">
+              <div class="field">
+                <label for="distributor">Current Distributor <span class="req">*</span></label>
+                <select id="distributor" required>
+                  <option value="" disabled selected>Select your distributor</option>
+                  <option>IKONIC</option><option>DistroKid</option><option>TuneCore</option>
+                  <option>CD Baby</option><option>UnitedMasters</option><option>Stem</option>
+                  <option>Symphonic</option><option>Too Lost</option><option>Ditto</option>
+                  <option>AWAL</option><option>ONErpm</option><option>SoundOn</option>
+                  <option>Venice</option><option>RouteNote</option><option>Amuse</option>
+                  <option>Believe</option><option>The Orchard</option><option>Empire</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="listeners">Monthly Listeners</label>
+                <select id="listeners">
+                  <option value="" disabled selected>Select range...</option>
+                  <option>Under 1K</option><option>1K – 10K</option><option>10K – 50K</option>
+                  <option>50K – 100K</option><option>100K – 500K</option><option>500K – 1M</option>
+                  <option>1M+</option>
+                </select>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="field">
+                <label for="genre">Genre</label>
+                <select id="genre">
+                  <option value="" disabled selected>Select genre...</option>
+                  <option>Hip-Hop</option><option>R&amp;B</option><option>Pop</option>
+                  <option>Afrobeats</option><option>Amapiano</option><option>Drill</option>
+                  <option>Electronic</option><option>Rock</option><option>Country</option>
+                  <option>Jazz</option><option>Gospel</option><option>Latin</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="country">Country</label>
+                <select id="country">
+                  <option value="" disabled selected>Select country...</option>
+                  <option>United States</option><option>United Kingdom</option><option>Canada</option>
+                  <option>Nigeria</option><option>Ghana</option><option>South Africa</option>
+                  <option>Kenya</option><option>Germany</option><option>France</option>
+                  <option>Netherlands</option><option>Australia</option><option>Brazil</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn" id="submitBtn" type="button" onclick="submitForm()">Join Early Access &nbsp;→</button>
+            <button class="back-link" type="button" onclick="prevStep()">← Back</button>
+            <p class="microcopy" id="formError" style="display:none;color:#f5242c">Something went wrong. Please try again.</p>
+            <p class="microcopy">No spam. Just real updates.</p>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-success" id="formSuccess">
+        <span class="check"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>
+        <h3>You're in.</h3>
+        <p>Watch your inbox — your early access invite is on its way.<br>Welcome to the new standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="platforms">
+  <div class="wrap">
+    <!-- DEV: swap text wordmarks for official platform logos -->
+    <div class="plabel">DISTRIBUTE TO ALL MAJOR PLATFORMS</div>
+    <div class="dsp-row">
+      <span class="dsp"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 100 24 12 12 0 000-24zm5.5 17.3a.7.7 0 01-1 .3c-2.6-1.6-5.9-2-9.8-1.1a.7.7 0 01-.3-1.4c4.2-1 7.8-.6 10.7 1.2.4.2.5.7.4 1zm1.5-3.3a.9.9 0 01-1.2.3c-3-1.9-7.6-2.4-11.2-1.3a.9.9 0 01-.5-1.7c4.1-1.2 9.1-.6 12.6 1.5.4.2.5.8.3 1.2zm.1-3.4C15.2 8.2 8.9 8 5.4 9.1a1.1 1.1 0 01-.6-2c4-1.2 11-1 15.4 1.7a1.1 1.1 0 01-1.1 1.8z"/></svg>Spotify</span>
+      <span class="dsp"><svg viewBox="0 0 24 24"><path d="M17.05 12.54c0-2.4 1.96-3.55 2.05-3.6-1.12-1.64-2.86-1.86-3.48-1.89-1.48-.15-2.89.87-3.64.87-.75 0-1.9-.85-3.13-.83-1.61.02-3.1.94-3.93 2.38-1.68 2.9-.43 7.2 1.2 9.56.8 1.15 1.75 2.45 3 2.4 1.2-.05 1.66-.78 3.12-.78s1.87.78 3.14.75c1.3-.02 2.12-1.17 2.91-2.33.92-1.34 1.3-2.64 1.32-2.7-.03-.02-2.54-.98-2.56-3.83zM14.16 4.06c.66-.8 1.1-1.9 1.1-3.06-1.06.04-2.35.71-3.11 1.6-.68.79-1.28 2.05-1.12 3.26 1.19.09 2.4-.6 3.13-1.8z"/></svg>Music</span>
+      <span class="dsp"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.3 31.3 0 0024 12a31.3 31.3 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>YouTube</span>
+      <span class="dsp">amazon music</span>
+      <span class="dsp"><svg viewBox="0 0 24 24"><path d="M16.6 5.82A4.28 4.28 0 0115.54 3h-3.09v12.4a2.59 2.59 0 11-2.59-2.59c.27 0 .53.04.78.12V9.77a5.76 5.76 0 00-.78-.05 5.66 5.66 0 105.66 5.66V9.01a7.35 7.35 0 004.3 1.38V7.3a4.28 4.28 0 01-3.22-1.48z"/></svg>TikTok</span>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <img src="crowd.webp" alt="Concert crowd with hands raised in red light">
+  <div class="wrap">
+    <div class="closing-copy">
+      <div class="eyebrow">Built for what's next</div>
+      <h2>Same artists.<br><span class="red">A bigger future.</span></h2>
+      <p>Ikonic is more than distribution. We're building the infrastructure for independent artists to own more, earn more, and go further.</p>
+      <a class="btn" href="#register">Join Early Access &nbsp;→</a>
+    </div>
+  </div>
+  <div class="script closing-script">Independent<br>goes further<br>here.</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="f-logo" href="https://early.ikonicdistro.com" aria-label="IKONIC — Home"><img src="logo-white-crop.jpg" alt="IKONIC"></a>
+      <div class="f-copy">© 2026 Ikonic. All rights reserved.</div>
+    </div>
+    <div class="f-links">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a>
+      <span class="f-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zm5.2-9.6a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/></svg></a>
+        <a href="#" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.6 2H8l4.4 5.9L18.9 2zm-1.1 18.1h1.7L7.1 3.8H5.3l12.5 16.3z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.3 31.3 0 0024 12a31.3 31.3 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Two-step form: Step 1 captures the lead (name + email) before asking for more.
+  // DEV: POST step 1 to your endpoint immediately on Continue — don't wait for step 2.
+  function nextStep(){
+    var name = document.getElementById('artistName'), email = document.getElementById('email');
+    if(!name.value.trim()){ name.focus(); name.style.borderColor = '#f5242c'; return; }
+    if(!email.value.trim() || email.value.indexOf('@') < 0){ email.focus(); email.style.borderColor = '#f5242c'; return; }
+    // DEV: save lead here (artistName, email, accountType)
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+  }
+  function prevStep(){
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+  }
+  function submitForm(){
+    var distributor = document.getElementById('distributor');
+    if(!distributor.value){ distributor.focus(); distributor.style.borderColor = '#f5242c'; return; }
+
+    var acctType = document.querySelector('#acctToggle button.active').dataset.acct;
+    var payload = {
+      accountType: acctType,
+      name: document.getElementById('artistName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      instagram: document.getElementById('instagram').value.trim(),
+      spotify: document.getElementById('spotify').value.trim(),
+      distributor: distributor.value,
+      listeners: document.getElementById('listeners').value,
+      genre: document.getElementById('genre').value,
+      country: document.getElementById('country').value
+    };
+
+    var submitBtn = document.getElementById('submitBtn');
+    var errorEl = document.getElementById('formError');
+    errorEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Submitting…';
+
+    fetch('/api/early-access', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then(function(res){ if(!res.ok) throw new Error('Request failed'); return res.json(); })
+    .then(function(){
+      document.getElementById('formFields').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    })
+    .catch(function(){
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Join Early Access &nbsp;→';
+      errorEl.style.display = 'block';
+    });
+  }
+  // Account type toggle
+  document.getElementById('acctToggle').addEventListener('click', function(e){
+    if(e.target.tagName !== 'BUTTON') return;
+    this.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+    e.target.classList.add('active');
+    var label = document.querySelector('label[for="artistName"]');
+    var input = document.getElementById('artistName');
+    var t = e.target.dataset.acct;
+    if(t === 'label'){ label.innerHTML = 'Label Name <span class="req">*</span>'; input.placeholder = 'Your label name'; }
+    else if(t === 'manager'){ label.innerHTML = 'Your Name <span class="req">*</span>'; input.placeholder = 'Your full name'; }
+    else { label.innerHTML = 'Artist Name <span class="req">*</span>'; input.placeholder = 'Your artist name'; }
+  });
+  // Animate progress bar + count up on scroll into view
+  var animated = false;
+  function animateProgress(){
+    if(animated) return; animated = true;
+    var target = 2847, el = document.getElementById('joinedNum'), bar = document.getElementById('progressBar');
+    // DEV: replace 2847 with live count from your API
+    bar.style.width = (target/5000*100) + '%';
+    var start = null;
+    function tick(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/1400, 1);
+      el.textContent = Math.floor(target * (1-Math.pow(1-p,3))).toLocaleString();
+      if(p < 1) requestAnimationFrame(tick); else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(tick);
+  }
+  var io = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){ animateProgress(); io.disconnect(); }
+  }, {threshold:.3});
+  io.observe(document.querySelector('.register'));
+</script>
+</body>
+</html>
