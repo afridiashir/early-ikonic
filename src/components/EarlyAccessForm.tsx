@@ -20,6 +20,10 @@ import {
   type FieldErrors,
 } from "@/lib/early-access";
 
+// Fields rendered on step 1 — a server-side error keyed to one of these is
+// invisible if the user has already moved on to step 2.
+const STEP_ONE_FIELDS: (keyof EarlyAccessSubmission)[] = ["name", "email"];
+
 type Status = "idle" | "submitting" | "success";
 
 export default function EarlyAccessForm() {
@@ -41,7 +45,10 @@ export default function EarlyAccessForm() {
 
   const focusFirstError = (fieldErrors: FieldErrors) => {
     const first = Object.keys(fieldErrors)[0];
-    if (first) document.getElementById(first)?.focus();
+    if (!first) return;
+    // Deferred: a step switch triggered by this same error needs to render
+    // first, or the target field won't exist in the DOM yet.
+    setTimeout(() => document.getElementById(first)?.focus(), 0);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -83,6 +90,11 @@ export default function EarlyAccessForm() {
       if (!res.ok) {
         if (payload.fieldErrors) {
           setErrors(payload.fieldErrors);
+          // A step-1 field error is invisible on step 2's markup — jump back
+          // so the error renders next to the field it belongs to.
+          if (STEP_ONE_FIELDS.some((field) => payload.fieldErrors?.[field])) {
+            setStep(1);
+          }
           focusFirstError(payload.fieldErrors);
         }
         setFormError(payload.error || "Something went wrong. Please try again.");
