@@ -3,7 +3,9 @@ import Features from "@/components/Features";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
+import Offer from "@/components/Offer";
 import Platforms from "@/components/Platforms";
+import Pricing from "@/components/Pricing";
 import Register from "@/components/Register";
 
 // DEV: wire these to the live registration count before launch — do not ship a
@@ -30,6 +32,8 @@ export default function Home() {
       </section>
 
       <Features />
+      <Offer />
+      <Pricing />
       <Register joined={joined} goal={goal} />
       <Platforms />
       <Closing />
