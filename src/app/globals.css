@@ -5,6 +5,7 @@
   --radius:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+h1,h2,h3{overflow-wrap:break-word}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font-archivo),-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1400px;margin:0 auto;padding:0 48px}
@@ -59,7 +60,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 
 /* ---------- FEATURES ---------- */
 .features{padding:64px 0}
-.features-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.features-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
 .feature{padding:10px 44px;text-align:center;position:relative}
 .feature + .feature::before{content:'';position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--line)}
 .feature svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:1.6;margin-bottom:20px}
@@ -68,7 +69,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 
 /* ---------- REGISTER ---------- */
 .register{padding:110px 0}
-.register-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.register-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:80px;align-items:start}
 .register h2{font-size:clamp(44px,4vw,64px);font-weight:900;margin:18px 0 20px;letter-spacing:-.01em}
 .register h2 .red{color:var(--red)}
 .register .lede{color:#c9c9c9;font-size:18px;line-height:1.65;max-width:480px}
@@ -108,7 +109,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .field input[aria-invalid="true"],.field select[aria-invalid="true"]{border-color:var(--red)}
 .field .err{display:block;color:var(--red);font-size:12.5px;margin-top:7px;font-weight:500}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 .form-step{animation:fadeUp .35s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .step-hint{font-size:13px;color:var(--muted2);margin-bottom:20px;letter-spacing:.06em}
@@ -137,7 +138,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .closing-script{position:absolute;right:6%;bottom:64px;z-index:2;font-size:44px;transform:rotate(-4deg);text-align:right;line-height:1.25}
 
 /* ---------- OFFER ---------- */
-.offer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:center;padding:56px 48px;
+.offer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;align-items:center;padding:56px 48px;
   background:var(--card);border:1px solid #1e1e1e;border-radius:var(--radius);margin:70px auto}
 .offer small{font-size:13px;font-weight:700;letter-spacing:.28em;text-transform:uppercase}
 .offer h2{font-size:34px;font-weight:900;letter-spacing:-.01em;margin:10px 0 6px;text-transform:uppercase}
@@ -162,7 +163,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .pricing-dsp-row{display:flex;align-items:center;gap:18px}
 .pricing-dsp-row svg{width:22px;height:22px;fill:#8f8f8f;transition:fill .2s}
 .pricing-dsp-row svg:hover{fill:#fff}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .card{background:linear-gradient(145deg,#12191d,#0a0d0f);border:1px solid #243138;border-radius:var(--radius);
   padding:32px 28px 28px;display:flex;flex-direction:column;position:relative}
 .card.popular{border:2px solid var(--red);background:linear-gradient(140deg,#2a0e11,#120c0e)}
@@ -223,25 +224,31 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-
   .hero .wrap{padding:70px 24px 60px}
   .hero-script-corner{display:none}
   .wrap{padding:0 24px}
-  .features-grid{grid-template-columns:1fr 1fr;gap:40px 0}
+  .features-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 0}
   .feature:nth-child(3)::before{display:none}
   .register{padding:70px 0}
-  .register-grid{grid-template-columns:1fr;gap:60px}
+  .register-grid{grid-template-columns:minmax(0,1fr);gap:60px}
   .nav-links{display:none}
   .closing-script{display:none}
-  .offer{grid-template-columns:1fr;gap:28px;padding:40px 24px}
+  .offer{grid-template-columns:minmax(0,1fr);gap:28px;padding:40px 24px}
   .offer .rules{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:20px}
-  .cards{grid-template-columns:1fr}
+  .cards{grid-template-columns:minmax(0,1fr)}
   .pricing-dsp{align-items:flex-start}
 }
 
 @media(max-width:560px){
   .form-card{padding:28px 22px}
   .ig-popup{padding:28px 22px}
-  .frow{grid-template-columns:1fr;gap:0}
-  .features-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:minmax(0,1fr);gap:0}
+  .features-grid{grid-template-columns:minmax(0,1fr)}
   .feature + .feature::before{display:none}
   .f-links{flex-wrap:wrap;gap:18px}
+}
+
+@media(max-width:400px){
+  /* "DISTRIBUTION." is the single longest word on the page — below ~380px
+     it no longer fits the clamp()'s 40px floor on one line. */
+  .manifesto h2{font-size:32px}
 }
 
 @media(prefers-reduced-motion:reduce){
