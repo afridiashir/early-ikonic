@@ -58,7 +58,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .manifesto p{color:var(--muted);margin-top:16px;font-size:17px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.6}
 
 /* ---------- FEATURES ---------- */
-.features{display:grid;grid-template-columns:repeat(4,1fr);padding:64px 0}
+.features{padding:64px 0}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr)}
 .feature{padding:10px 44px;text-align:center;position:relative}
 .feature + .feature::before{content:'';position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--line)}
 .feature svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:1.6;margin-bottom:20px}
@@ -222,13 +223,13 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-
   .hero .wrap{padding:70px 24px 60px}
   .hero-script-corner{display:none}
   .wrap{padding:0 24px}
-  .features{grid-template-columns:1fr 1fr;gap:40px 0}
+  .features-grid{grid-template-columns:1fr 1fr;gap:40px 0}
   .feature:nth-child(3)::before{display:none}
   .register{padding:70px 0}
   .register-grid{grid-template-columns:1fr;gap:60px}
   .nav-links{display:none}
   .closing-script{display:none}
-  .offer{grid-template-columns:1fr;gap:28px;padding:40px 28px}
+  .offer{grid-template-columns:1fr;gap:28px;padding:40px 24px}
   .offer .rules{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:20px}
   .cards{grid-template-columns:1fr}
   .pricing-dsp{align-items:flex-start}
@@ -238,7 +239,7 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-
   .form-card{padding:28px 22px}
   .ig-popup{padding:28px 22px}
   .frow{grid-template-columns:1fr;gap:0}
-  .features{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
   .feature + .feature::before{display:none}
   .f-links{flex-wrap:wrap;gap:18px}
 }
