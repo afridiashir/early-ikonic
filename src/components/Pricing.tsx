@@ -31,7 +31,7 @@ const DSPS = [
   },
 ];
 
-const fmt = (n: number) => (Number.isInteger(n) ? n.toString() : n.toFixed(2));
+const money = (n: number) => `$${n.toFixed(2)}`;
 
 export default function Pricing() {
   const [audience, setAudience] = useState<Audience>("artist");
@@ -52,7 +52,6 @@ export default function Pricing() {
             {copy.sub}
           </p>
         </div>
-        <br/>
         <div className="switches">
           <div className="switch" id="audience" role="group" aria-label="Audience">
             <button
@@ -88,33 +87,70 @@ export default function Pricing() {
           </div>
           {billing === "monthly" && <span className="pill">20% OFF MONTHLY (12 months)</span>}
 
+          <div className="pricing-dsp">
+            <span className="pricing-dsp-label">Distribute everywhere</span>
+            <div className="pricing-dsp-row">
+              {DSPS.map((d) => (
+                <svg key={d.name} viewBox="0 0 24 24" aria-label={d.name}>
+                  <title>{d.name}</title>
+                  <path d={d.path} />
+                </svg>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       <div id="cards" className="cards">
         {plans.map((plan) => {
-          const price = priceFor(plan, billing);
-          const discounted = billing === "monthly" && price < plan.regular;
+          const { original, discounted, interval } = priceFor(plan, billing);
           return (
-            <div className="card" key={plan.id}>
+            <article className={`card${plan.popular ? " popular" : ""}`} key={plan.id}>
+              {plan.popular && <div className="popular-tag">MOST POPULAR</div>}
               <h3>{plan.name}</h3>
-              <p className="card-tagline">{plan.desc}</p>
-              <div className="card-price">
-                <span className="amount">${fmt(price)}</span>
-                <span className="period">/mo</span>
-                {discounted && <span className="card-was">${fmt(plan.regular)}</span>}
-              </div>
-              {billing === "annual" && <p className="card-billed">Billed annually</p>}
-              {plan.inherit && <p className="card-inherit">{plan.inherit}</p>}
-              <ul className="card-features">
+              <p className="desc">{plan.desc}</p>
+
+              {billing === "monthly" ? (
+                <>
+                  <div className="old">{money(original)}</div>
+                  <div className="price">
+                    {money(discounted)} <small>{interval}</small>
+                  </div>
+                  <span className="discount">20% OFF for first 12 paid months</span>
+                </>
+              ) : (
+                <>
+                  <div className="price">
+                    {money(original)} <small>{interval}</small>
+                  </div>
+                  <span className="annual-note">
+                    Annual plan — no EarlyIkon26 discount currently
+                  </span>
+                </>
+              )}
+
+              {plan.inherit && (
+                <div className="inherit">
+                  <span>✓</span>
+                  {plan.inherit}
+                </div>
+              )}
+
+              <ul>
                 {plan.features.map((feature) => (
                   <li key={feature}>{feature}</li>
                 ))}
               </ul>
-              <a className="btn" href="#register">
-                Start Free Trial &nbsp;→
+
+              <a
+                className="btn signup"
+                href={plan.signupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start 7 Day Free Trial &nbsp;→
               </a>
-            </div>
+            </article>
           );
         })}
       </div>
@@ -125,7 +161,7 @@ export default function Pricing() {
           {plans.map((plan) => (
             <span key={plan.id}>
               {plan.name.charAt(0) + plan.name.slice(1).toLowerCase()} +$
-              {fmt(plan.overagePerArtist ?? 0)} / artist
+              {(plan.overagePerArtist ?? 0).toFixed(0)} / artist
             </span>
           ))}
         </div>

@@ -1,3 +1,6 @@
+// Sourced from the approved IKONIC_Early_Access_LINKED_UI_HTML handoff
+// (index.html / styles.css / app.js, Oct 18 2026 link manifest).
+
 export type Audience = "artist" | "label";
 export type Billing = "monthly" | "annual";
 
@@ -11,6 +14,9 @@ export type Plan = {
   features: string[];
   /** Label plans only — cost per artist profile beyond the plan's included count. */
   overagePerArtist?: number;
+  /** Middle tier of each audience — gets the "Most Popular" ribbon. */
+  popular?: boolean;
+  signupUrl: string;
 };
 
 export const ARTIST_PLANS: Plan[] = [
@@ -30,6 +36,7 @@ export const ARTIST_PLANS: Plan[] = [
       "Release management",
       "Standard support",
     ],
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=basic&promo=EarlyIkon26",
   },
   {
     id: "pro",
@@ -44,6 +51,8 @@ export const ARTIST_PLANS: Plan[] = [
       "Team members (up to 3)",
       "Priority support",
     ],
+    popular: true,
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=pro&promo=EarlyIkon26",
   },
   {
     id: "pro-plus",
@@ -60,6 +69,7 @@ export const ARTIST_PLANS: Plan[] = [
       "Fast track review",
       "Early access to new tools",
     ],
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=pro_plus&promo=EarlyIkon26",
   },
 ];
 
@@ -81,6 +91,7 @@ export const LABEL_PLANS: Plan[] = [
       "Standard support",
     ],
     overagePerArtist: 6,
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=label_starter&promo=EarlyIkon26",
   },
   {
     id: "growth",
@@ -98,6 +109,8 @@ export const LABEL_PLANS: Plan[] = [
       "Priority support",
     ],
     overagePerArtist: 5,
+    popular: true,
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=label_growth&promo=EarlyIkon26",
   },
   {
     id: "enterprise",
@@ -117,6 +130,7 @@ export const LABEL_PLANS: Plan[] = [
       "API access (by request)",
     ],
     overagePerArtist: 4,
+    signupUrl: "https://ikonic.flicknexs.com/register?plan=label_enterprise&promo=EarlyIkon26",
   },
 ];
 
@@ -133,12 +147,22 @@ export const AUDIENCE_COPY: Record<Audience, { eyebrow: string; title: string; s
   },
   label: {
     eyebrow: "LABEL PLANS",
-    title: "Choose the plan that fits your roster.",
-    sub: "All label plans include global distribution and 100% ownership for every artist you manage.",
+    title: "Scale your label. Build your legacy.",
+    sub: "Manage multiple artists, streamline operations, and grow your label with powerful tools.",
   },
 };
 
-/** The 20% promo applies to monthly billing only — annual is the plain regular rate. */
-export function priceFor(plan: Plan, billing: Billing): number {
-  return billing === "monthly" ? plan.regular * 0.8 : plan.regular;
+export type PriceBlock = {
+  /** Full, undiscounted amount — the monthly rate, or regular*12 for annual. */
+  original: number;
+  /** What they actually pay: 20%-off monthly, or the plain annual total (no promo). */
+  discounted: number;
+  interval: "/month" | "/year";
+};
+
+/** Mirrors app.js exactly: monthly gets the 12-month 20% promo; annual never does. */
+export function priceFor(plan: Plan, billing: Billing): PriceBlock {
+  const original = billing === "monthly" ? plan.regular : plan.regular * 12;
+  const discounted = billing === "monthly" ? Math.round(original * 0.8 * 100) / 100 : original;
+  return { original, discounted, interval: billing === "monthly" ? "/month" : "/year" };
 }
