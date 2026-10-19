@@ -147,7 +147,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .offer .rules{color:#d5d5d5;font-size:14.5px;line-height:2;border-left:1px solid var(--line);padding-left:32px}
 
 /* ---------- PRICING ---------- */
-.section{padding:90px 0}
+.section{padding-top:90px;padding-bottom:90px}
 .pricing-head{margin-bottom:40px}
 .pricing-head h2{font-size:clamp(32px,3.2vw,44px);font-weight:900;letter-spacing:-.01em;margin:10px 0 10px}
 .pricing-head .muted{color:var(--muted);font-size:16px;max-width:520px;line-height:1.55}
