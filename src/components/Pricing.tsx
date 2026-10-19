@@ -52,7 +52,9 @@ export default function Pricing() {
             {copy.sub}
           </p>
         </div>
-        <div className="switches">
+      </div>
+      
+        <div className="switches" style={{marginBottom:"20px"}}>
           <div className="switch" id="audience" role="group" aria-label="Audience">
             <button
               className={audience === "artist" ? "active" : undefined}
@@ -87,19 +89,7 @@ export default function Pricing() {
           </div>
           {billing === "monthly" && <span className="pill">20% OFF MONTHLY (12 months)</span>}
 
-          <div className="pricing-dsp">
-            <span className="pricing-dsp-label">Distribute everywhere</span>
-            <div className="pricing-dsp-row">
-              {DSPS.map((d) => (
-                <svg key={d.name} viewBox="0 0 24 24" aria-label={d.name}>
-                  <title>{d.name}</title>
-                  <path d={d.path} />
-                </svg>
-              ))}
-            </div>
-          </div>
         </div>
-      </div>
 
       <div id="cards" className="cards">
         {plans.map((plan) => {
