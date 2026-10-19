@@ -1,65 +1,129 @@
-// TODO(pricing): every dollar amount and feature bullet below is a placeholder
-// stand-in, not real pricing. Swap these for the actual plan numbers before
-// this section ships — same rule as EARLY_ACCESS_JOINED in page.tsx: never
-// ship a fake number as if it were real.
-
 export type Audience = "artist" | "label";
 export type Billing = "monthly" | "annual";
 
 export type Plan = {
-  id: "starter" | "growth" | "enterprise";
+  id: string;
   name: string;
-  tagline: string;
-  monthly: number;
-  annualMonthly: number;
+  desc: string;
+  regular: number;
+  /** Shown above `features` as "Everything in X plus:" — omitted on the entry tier. */
+  inherit?: string;
   features: string[];
-  overagePerArtist: number;
+  /** Label plans only — cost per artist profile beyond the plan's included count. */
+  overagePerArtist?: number;
 };
 
-export const PLANS: Plan[] = [
+export const ARTIST_PLANS: Plan[] = [
+  {
+    id: "basic",
+    name: "BASIC",
+    desc: "Release your music professionally.",
+    regular: 4.99,
+    features: [
+      "Global music distribution (200+ countries)*",
+      "Keep 100% ownership",
+      "Basic analytics",
+      "ISRC / UPC generation",
+      "Artist Bio Link",
+      "Show calendar",
+      "Smart links",
+      "Release management",
+      "Standard support",
+    ],
+  },
+  {
+    id: "pro",
+    name: "PRO",
+    desc: "Take control of your music business.",
+    regular: 9.99,
+    inherit: "Everything in Basic plus:",
+    features: [
+      "Publishing administration (collect worldwide)",
+      "Advanced analytics",
+      "Royalty splits",
+      "Team members (up to 3)",
+      "Priority support",
+    ],
+  },
+  {
+    id: "pro-plus",
+    name: "PRO+",
+    desc: "Build and scale with your team.",
+    regular: 19.99,
+    inherit: "Everything in Pro plus:",
+    features: [
+      "Advance eligibility",
+      "Catalog valuation access",
+      "Custom payment splits",
+      "Team members (up to 6)",
+      "Playlist pitching",
+      "Fast track review",
+      "Early access to new tools",
+    ],
+  },
+];
+
+export const LABEL_PLANS: Plan[] = [
   {
     id: "starter",
-    name: "Starter",
-    tagline: "For your first release.",
-    monthly: 9.99,
-    annualMonthly: 8.33,
+    name: "STARTER",
+    desc: "Run your label from day one.",
+    regular: 39,
     features: [
-      "Unlimited distribution",
-      "Keep 100% of your rights",
-      "1 artist profile",
+      "Up to 5 artist profiles",
+      "5 team members",
+      "Global distribution (200+ countries)*",
+      "Basic roster analytics",
+      "Royalty splits",
+      "ISRC / UPC generation",
+      "Artist Bio Link",
+      "Show calendar",
       "Standard support",
     ],
     overagePerArtist: 6,
   },
   {
     id: "growth",
-    name: "Growth",
-    tagline: "For an active, growing catalog.",
-    monthly: 19.99,
-    annualMonthly: 16.66,
+    name: "GROWTH",
+    desc: "Scale your roster with confidence.",
+    regular: 99,
+    inherit: "Everything in Starter plus:",
     features: [
-      "Everything in Starter",
-      "Publishing administration",
-      "Playlist pitching tools",
+      "15 artist profiles",
+      "10 team members",
+      "Publishing administration (collect worldwide)",
+      "Advanced roster analytics",
+      "Bulk upload tools",
+      "Scheduled releases",
       "Priority support",
     ],
     overagePerArtist: 5,
   },
   {
     id: "enterprise",
-    name: "Enterprise",
-    tagline: "For labels and full-time careers.",
-    monthly: 39.99,
-    annualMonthly: 33.33,
+    name: "ENTERPRISE",
+    desc: "Built for established labels.",
+    regular: 249,
+    inherit: "Everything in Growth plus:",
     features: [
-      "Everything in Growth",
-      "Catalog funding & advances",
+      "50 artist profiles",
+      "15 team members",
+      "Advance eligibility",
+      "Catalog valuation access",
+      "Custom payment splits",
+      "Playlist pitching",
+      "Fast track review",
       "Dedicated account manager",
-      "Early access to new tools",
+      "API access (by request)",
     ],
     overagePerArtist: 4,
   },
 ];
+
+export const PLANS_BY_AUDIENCE: Record<Audience, Plan[]> = {
+  artist: ARTIST_PLANS,
+  label: LABEL_PLANS,
+};
 
 export const AUDIENCE_COPY: Record<Audience, { eyebrow: string; title: string; sub: string }> = {
   artist: {
@@ -73,3 +137,8 @@ export const AUDIENCE_COPY: Record<Audience, { eyebrow: string; title: string; s
     sub: "All label plans include global distribution and 100% ownership for every artist you manage.",
   },
 };
+
+/** The 20% promo applies to monthly billing only — annual is the plain regular rate. */
+export function priceFor(plan: Plan, billing: Billing): number {
+  return billing === "monthly" ? plan.regular * 0.8 : plan.regular;
+}
