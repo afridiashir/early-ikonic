@@ -53,43 +53,42 @@ export default function Pricing() {
           </p>
         </div>
       </div>
-      
-        <div className="switches" style={{marginBottom:"20px"}}>
-          <div className="switch" id="audience" role="group" aria-label="Audience">
-            <button
-              className={audience === "artist" ? "active" : undefined}
-              aria-pressed={audience === "artist"}
-              onClick={() => setAudience("artist")}
-            >
-              Artists
-            </button>
-            <button
-              className={audience === "label" ? "active" : undefined}
-              aria-pressed={audience === "label"}
-              onClick={() => setAudience("label")}
-            >
-              Labels
-            </button>
-          </div>
-          <div className="switch" id="billing" role="group" aria-label="Billing cycle">
-            <button
-              className={billing === "monthly" ? "active" : undefined}
-              aria-pressed={billing === "monthly"}
-              onClick={() => setBilling("monthly")}
-            >
-              Monthly
-            </button>
-            <button
-              className={billing === "annual" ? "active" : undefined}
-              aria-pressed={billing === "annual"}
-              onClick={() => setBilling("annual")}
-            >
-              Annual
-            </button>
-          </div>
-          {billing === "monthly" && <span className="pill">20% OFF MONTHLY (12 months)</span>}
 
+      <div className="switches">
+        <div className="switch" id="audience" role="group" aria-label="Audience">
+          <button
+            className={audience === "artist" ? "active" : undefined}
+            aria-pressed={audience === "artist"}
+            onClick={() => setAudience("artist")}
+          >
+            Artists
+          </button>
+          <button
+            className={audience === "label" ? "active" : undefined}
+            aria-pressed={audience === "label"}
+            onClick={() => setAudience("label")}
+          >
+            Labels
+          </button>
         </div>
+        <div className="switch" id="billing" role="group" aria-label="Billing cycle">
+          <button
+            className={billing === "monthly" ? "active" : undefined}
+            aria-pressed={billing === "monthly"}
+            onClick={() => setBilling("monthly")}
+          >
+            Monthly
+          </button>
+          <button
+            className={billing === "annual" ? "active" : undefined}
+            aria-pressed={billing === "annual"}
+            onClick={() => setBilling("annual")}
+          >
+            Annual
+          </button>
+        </div>
+        {billing === "monthly" && <span className="pill">20% OFF MONTHLY (12 months)</span>}
+      </div>
 
       <div id="cards" className="cards">
         {plans.map((plan) => {
