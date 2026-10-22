@@ -42,7 +42,7 @@ const FEATURES = [
 export default function Features() {
   return (
     <section className="features">
-      <div className="wrap features-grid">
+      <div className="wrap" style={{ display: "contents" }}>
         {FEATURES.map((f) => (
           <div className="feature" key={f.title}>
             <svg viewBox="0 0 24 24" aria-hidden="true">
