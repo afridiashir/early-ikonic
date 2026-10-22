@@ -87,7 +87,7 @@ export default function Pricing() {
             Annual
           </button>
         </div>
-        {billing === "monthly" && <span className="pill">20% OFF MONTHLY (12 months)</span>}
+        <span className="pill">20% OFF YOUR FIRST 12 MONTHS</span>
       </div>
 
       <div id="cards" className="cards">
@@ -99,24 +99,13 @@ export default function Pricing() {
               <h3>{plan.name}</h3>
               <p className="desc">{plan.desc}</p>
 
-              {billing === "monthly" ? (
-                <>
-                  <div className="old">{money(original)}</div>
-                  <div className="price">
-                    {money(discounted)} <small>{interval}</small>
-                  </div>
-                  <span className="discount">20% OFF for first 12 paid months</span>
-                </>
-              ) : (
-                <>
-                  <div className="price">
-                    {money(original)} <small>{interval}</small>
-                  </div>
-                  <span className="annual-note">
-                    Annual plan — no EarlyIkon26 discount currently
-                  </span>
-                </>
-              )}
+              <div className="old">{money(original)}</div>
+              <div className="price">
+                {money(discounted)} <small>{interval}</small>
+              </div>
+              <span className="discount">
+                {billing === "monthly" ? "20% OFF for first 12 paid months" : "20% OFF your first year"}
+              </span>
 
               {plan.inherit && (
                 <div className="inherit">
@@ -158,8 +147,9 @@ export default function Pricing() {
 
       <p className="fine">
         Payment card required. Your plan begins billing after the 7-day trial unless canceled.
-        The 20% discount applies to the first 12 paid monthly billing periods only; annual plans
-        are not discounted by EarlyIkon26. Standard pricing resumes afterward. Cancel anytime;
+        The EarlyIkon26 20% discount applies to your first 12 months on both monthly and annual
+        plans — the first 12 monthly payments, or your first annual payment. Standard pricing
+        resumes afterward. Cancel anytime;
         cancellation ends promotional eligibility. *Verify 200+ country coverage and all features
         before publication.
       </p>

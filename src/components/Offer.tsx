@@ -9,7 +9,7 @@ export default function Offer() {
       <div>
         <h2 className="red">20% OFF</h2>
         <b>FOR YOUR FIRST 12 MONTHS</b>
-        <p>Monthly plans. Annual promotion pending checkout setup.</p>
+        <p>On both monthly and annual plans.</p>
       </div>
       <div className="rules">
         ✓ Payment card required (no charge today)

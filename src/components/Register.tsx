@@ -4,7 +4,7 @@ import PromoCode from "@/components/PromoCode";
 
 const BENEFITS = [
   "7-day free trial on every plan",
-  "20% off your first 12 months (monthly plans)",
+  "20% off your first 12 months, monthly or annual",
   "Priority account approval",
   "Be the first to new features",
   "Help shape the future",

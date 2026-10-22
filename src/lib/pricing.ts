@@ -155,14 +155,14 @@ export const AUDIENCE_COPY: Record<Audience, { eyebrow: string; title: string; s
 export type PriceBlock = {
   /** Full, undiscounted amount — the monthly rate, or regular*12 for annual. */
   original: number;
-  /** What they actually pay: 20%-off monthly, or the plain annual total (no promo). */
+  /** EarlyIkon26 price: 20% off, on both monthly and annual billing. */
   discounted: number;
   interval: "/month" | "/year";
 };
 
-/** Mirrors app.js exactly: monthly gets the 12-month 20% promo; annual never does. */
+/** EarlyIkon26 takes 20% off the first 12 months — 12 monthly payments, or the first annual one. */
 export function priceFor(plan: Plan, billing: Billing): PriceBlock {
   const original = billing === "monthly" ? plan.regular : plan.regular * 12;
-  const discounted = billing === "monthly" ? Math.round(original * 0.8 * 100) / 100 : original;
+  const discounted = Math.round(original * 0.8 * 100) / 100;
   return { original, discounted, interval: billing === "monthly" ? "/month" : "/year" };
 }
